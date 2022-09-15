@@ -3,7 +3,7 @@
     <div id="list">
       <h2>Shopping List</h2>
 
-      <ul *ngIf="shoppingItems$ | async; else noItems">
+      <ul *ngIf="hasShoppingItems$ | async; else noItems">
         <li *ngFor="let shopping of shoppingItems$ | async" (click)="deleteItem(shopping.id)">
           <span>{{ shopping.name }}</span>
         </li>

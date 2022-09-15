@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AppState} from './store/models/app-state.model';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ShoppingItem} from './store/models/shopping-item.model';
 import {
   addItemAction,
@@ -9,7 +10,6 @@ import {
   loadShoppingAction,
 } from './store/actions/shopping.actions';
 import {selectShopping, selectShoppingError, selectShoppingIsLoading} from './store';
-import {Dictionary} from '@ngrx/entity';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +18,7 @@ import {Dictionary} from '@ngrx/entity';
 })
 export class AppComponent implements OnInit {
   shoppingItems$: Observable<ShoppingItem[]>;
+  hasShoppingItems$: Observable<boolean>;
   loading$: Observable<boolean>;
   error$: Observable<Error>;
 
@@ -29,6 +30,12 @@ export class AppComponent implements OnInit {
     this.shoppingItems$ = this.store.select(selectShopping);
     this.loading$ = this.store.select(selectShoppingIsLoading);
     this.error$ = this.store.select(selectShoppingError);
+    this.hasShoppingItems$ = this.shoppingItems$.pipe(
+      map((items: ShoppingItem[]) => {
+        const result = Array.isArray(items) && items.length > 0;
+        return result;
+      }),
+    );
 
     this.store.dispatch(loadShoppingAction());
   }
