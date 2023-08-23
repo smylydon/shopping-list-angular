@@ -10,6 +10,7 @@ import {
   loadShoppingAction,
 } from './store/actions/shopping.actions';
 import {selectShopping, selectShoppingError, selectShoppingIsLoading} from './store';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -17,16 +18,18 @@ import {selectShopping, selectShoppingError, selectShoppingIsLoading} from './st
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  shoppingItems$: Observable<ShoppingItem[]>;
-  hasShoppingItems$: Observable<boolean>;
-  loading$: Observable<boolean>;
-  error$: Observable<Error>;
+  public shoppingItems$: Observable<ShoppingItem[]>;
+  public hasShoppingItems$: Observable<boolean>;
+  public loading$: Observable<boolean>;
+  public error$: Observable<Error>;
 
-  newShoppingItem: ShoppingItem = {id: '', name: ''};
-  title = 'ngrx-shopping-list';
-  constructor(private store: Store<AppState>) {}
+  public newShoppingItem: ShoppingItem = {id: '', name: ''};
+  private title = 'ngrx-shopping-list';
+
+  constructor(private store: Store<AppState>, private titleService: Title) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle(this.title);
     this.shoppingItems$ = this.store.select(selectShopping);
     this.loading$ = this.store.select(selectShoppingIsLoading);
     this.error$ = this.store.select(selectShoppingError);

@@ -13,7 +13,8 @@ export class ShoppingService {
   constructor() {}
 
   getShoppingItems(): Observable<ShoppingItem[] | Error> {
-    return of(JSON.parse(localStorage.getItem('shopping-list'))).pipe(delay(DELAY_TIME));
+    const items: ShoppingItem[] = this.getItems();
+    return of(items).pipe(delay(DELAY_TIME));
   }
 
   addShoppingItem(shoppingItem: ShoppingItem): Observable<ShoppingItem | Error> {

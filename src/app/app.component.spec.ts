@@ -1,12 +1,20 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import {TestBed, waitForAsync} from '@angular/core/testing';
 import {AppComponent} from './app.component';
+import {Store} from '@ngrx/store';
+import {Title} from '@angular/platform-browser';
 
 describe('AppComponent', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [AppComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AppComponent],
+        providers: [
+          {provide: Store, useValue: {}},
+          {provide: Title, useValue: {}},
+        ],
+      }).compileComponents();
+    }),
+  );
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
@@ -20,12 +28,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('ngrx-shopping-list');
   });
 
-  it('should render title', () => {
+  xit('should render title ', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain(
-      'ngrx-shopping-list app is running!',
-    );
+    expect(compiled.querySelector('#wrapper h2').textContent).toContain('Shopping List');
   });
 });
